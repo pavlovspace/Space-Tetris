@@ -1,4 +1,14 @@
 export default class View {
+    static colors = {
+        '1': 'rgb(0, 255, 255)',
+        '2': 'rgb(1, 175, 1)',
+        '3': 'rgb(138, 0, 138)',
+        '4': 'rgb(255, 0, 0)',
+        '5': 'rgb(255, 136, 0)',
+        '6': 'rgb(4, 0, 255)',
+        '7': 'rgb(255, 255, 0)',
+    }
+
     constructor(element, width, height, rows, columns) {
         this.element = element;
         this.width = width;
@@ -34,7 +44,7 @@ export default class View {
                 const block = line[x];
 
                 if (block) {
-                    this.renderBlock(x * this.blockWidth, y * this.blockHeight, this.blockWidth, this.blockHeight, 'red')
+                    this.renderBlock(x * this.blockWidth, y * this.blockHeight, this.blockWidth, this.blockHeight, View.colors[block])
 
                 }
             }
@@ -43,7 +53,7 @@ export default class View {
 
     renderBlock(x, y, width, height, color) {
         this.context.fillStyle = color;
-        this.context.strokeStyle = 'black';
+        this.context.strokeStyle = '#231F20';
         this.context.lineWidth = 1;
 
         this.context.fillRect(x, y, width, height);
