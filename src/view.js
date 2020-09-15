@@ -38,10 +38,42 @@ export default class View {
         this.element.appendChild(this.canvas);
     }
 
-    render(state) {
+    renderMainScreen(state) {
         this.clearScreen();
         this.renderPlayField(state);
         this.renderPanel(state);
+    }
+
+    renderStartScreen() {
+        this.context.fillStyle = '#fff'
+        this.context.font = '20px"Press Start to play"'
+        this.context.textAlign = 'center'
+        this.context.textBaseline = 'middle'
+        this.context.fillText('Press ENTER to Start', this.width / 2, this.height / 2)
+    }
+
+    renderPauseScreen() {
+        this.context.fillStyle = 'rgba(0,0,0,0.75)'
+        this.context.fillRect(0, 0, this.width, this.height)
+
+        this.context.fillStyle = '#fff'
+        this.context.font = '20px"Press Start to play"'
+        this.context.textAlign = 'center'
+        this.context.textBaseline = 'middle'
+        this.context.fillText('Press ENTER to Resume', this.width / 2, this.height / 2)
+    }
+
+    renderEndScreen({
+        score
+    }) {
+        this.clearScreen()
+
+        this.context.fillStyle = '#fff'
+        this.context.font = '20px"Press Start to play"'
+        this.context.textAlign = 'center'
+        this.context.textBaseline = 'middle'
+        this.context.fillText('GAME OVER', this.width / 2, this.height / 2 - 48)
+        this.context.fillText(`Score: ${score}`, this.width / 2, this.height / 2)
     }
 
     clearScreen() {
@@ -68,9 +100,9 @@ export default class View {
                 }
             }
         }
-        // this.context.strokeStyle = 'black';
-        // this.context.lineWidth = this.playFieldBorderWidth;
-        // this.context.strokeRect(0, 0, this.playFieldWidth, this.playFieldHeight);
+        this.context.strokeStyle = '#fff';
+        this.context.lineWidth = this.playFieldBorderWidth;
+        this.context.strokeRect(0, 0, this.playFieldWidth, this.playFieldHeight);
     }
 
     renderPanel({
@@ -84,10 +116,10 @@ export default class View {
         this.context.fillStyle = '#fff'
         this.context.font = '16px "Press Start 2p"'
 
-        this.context.fillText(`Score ${score}`, 0, 0)
-        this.context.fillText(`Lines ${lines}`, 0, 26)
-        this.context.fillText(`Level ${level}`, 0, 50)
-        this.context.fillText('Next', 0, 98)
+        this.context.fillText(`Score ${score}`, this.panelX, this.panelY + 0)
+        this.context.fillText(`Lines ${lines}`, this.panelX, this.panelY + 26)
+        this.context.fillText(`Level ${level}`, this.panelX, this.panelY + 50)
+        this.context.fillText('Next:', this.panelX, this.panelY + 98)
 
         for (let y = 0; y < nextPiece.blocks.length; y++) {
             for (let x = 0; x < nextPiece.blocks[y].length; x++) {
@@ -95,10 +127,10 @@ export default class View {
 
                 if (block) {
                     this.renderBlock(
-                        x * this.blockWidth,
-                        y * this.blockHeight,
-                        this.blockWidth,
-                        this.blockHeight,
+                        this.panelX + (x * this.blockWidth * 0.5),
+                        this.panelY + 100 + (y * this.blockHeight * 0.5),
+                        this.blockWidth * 0.5,
+                        this.blockHeight * 0.5,
                         View.colors[block]
                     )
                 }

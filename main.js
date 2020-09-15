@@ -14,24 +14,26 @@ document.addEventListener('keydown', event => {
     switch (event.keyCode) {
         case 37: // left arrow
             game.movePieceLeft()
-            view.render(game.getState());
+            view.renderMainScreen(game.getState());
             break;
 
         case 38: // up 
             game.rotatePiece()
-            view.render(game.getState());
+            view.renderMainScreen(game.getState());
             break;
 
         case 39: // right
             game.movePieceRight()
-            view.render(game.getState());
+            view.renderMainScreen(game.getState());
             break;
 
         case 40: // down
             game.movePieceDown()
-            view.render(game.getState());
+            view.renderMainScreen(game.getState());
             break;
     }
 })
 
-view.render(game.getState())
+view.renderStartScreen(game.getState())
+// view.renderEndScreen(game.getState())
+// view.renderPauseScreen(game.getState())
