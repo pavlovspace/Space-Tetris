@@ -19,33 +19,88 @@ export default class View {
         this.canvas.height = this.height;
         this.context = this.canvas.getContext('2d');
 
-        this.blockWidth = this.width / columns;
-        this.blockHeight = this.height / rows;
+        this.playFieldBorderWidth = 2;
+        this.playFieldX = this.playFieldBorderWidth;
+        this.playFieldY = this.playFieldBorderWidth;
+        this.playFieldWidth = this.width * 2 / 3;
+        this.playFieldHeight = this.height;
+        this.playFieldInnerWidth = this.playFieldWidth - this.playFieldBorderWidth * 2;
+        this.playFieldInnerHeight = this.playFieldHeight - this.playFieldBorderWidth * 2;
 
+        this.blockWidth = this.playFieldInnerWidth / columns;
+        this.blockHeight = this.playFieldInnerHeight / rows;
+
+        this.panelX = this.playFieldWidth + 5;
+        this.panelY = 0;
+        this.panelWidth = this.width / 3;
+        this.panelHeight = this.height;
 
         this.element.appendChild(this.canvas);
     }
-    render({
-        playField
-    }) {
+
+    render(state) {
         this.clearScreen();
-        this.renderPlayField(playField);
+        this.renderPlayField(state);
+        this.renderPanel(state);
     }
 
     clearScreen() {
         this.context.clearRect(0, 0, this.width, this.height)
     }
 
-    renderPlayField(playField) {
-        for (let y = 0; y < playField.length; y++) {
+    renderPlayField({
+        playField
+    }) {
+        for (let y = 0; y < playField.length; y += 1) {
             const line = playField[y];
 
-            for (let x = 0; x < line.length; x++) {
+            for (let x = 0; x < line.length; x += 1) {
                 const block = line[x];
 
                 if (block) {
-                    this.renderBlock(x * this.blockWidth, y * this.blockHeight, this.blockWidth, this.blockHeight, View.colors[block])
+                    this.renderBlock(
+                        this.playFieldX + (x * this.blockWidth),
+                        this.playFieldY + (y * this.blockHeight),
+                        this.blockWidth,
+                        this.blockHeight,
+                        View.colors[block]
+                    );
+                }
+            }
+        }
+        // this.context.strokeStyle = 'black';
+        // this.context.lineWidth = this.playFieldBorderWidth;
+        // this.context.strokeRect(0, 0, this.playFieldWidth, this.playFieldHeight);
+    }
 
+    renderPanel({
+        level,
+        score,
+        lines,
+        nextPiece,
+    }) {
+        this.context.textAlign = 'start'
+        this.context.textBaseline = 'top'
+        this.context.fillStyle = '#fff'
+        this.context.font = '16px "Press Start 2p"'
+
+        this.context.fillText(`Score ${score}`, 0, 0)
+        this.context.fillText(`Lines ${lines}`, 0, 26)
+        this.context.fillText(`Level ${level}`, 0, 50)
+        this.context.fillText('Next', 0, 98)
+
+        for (let y = 0; y < nextPiece.blocks.length; y++) {
+            for (let x = 0; x < nextPiece.blocks[y].length; x++) {
+                const block = nextPiece.blocks[y][x]
+
+                if (block) {
+                    this.renderBlock(
+                        x * this.blockWidth,
+                        y * this.blockHeight,
+                        this.blockWidth,
+                        this.blockHeight,
+                        View.colors[block]
+                    )
                 }
             }
         }
