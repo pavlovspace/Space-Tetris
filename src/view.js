@@ -46,7 +46,7 @@ export default class View {
 
     renderStartScreen() {
         this.context.fillStyle = '#fff'
-        this.context.font = '20px"Press Start to play"'
+        this.context.font = '20px"Press Start 2P"'
         this.context.textAlign = 'center'
         this.context.textBaseline = 'middle'
         this.context.fillText('Press ENTER to Start', this.width / 2, this.height / 2)
@@ -57,7 +57,7 @@ export default class View {
         this.context.fillRect(0, 0, this.width, this.height)
 
         this.context.fillStyle = '#fff'
-        this.context.font = '20px"Press Start to play"'
+        this.context.font = '20px"Press Start 2P"'
         this.context.textAlign = 'center'
         this.context.textBaseline = 'middle'
         this.context.fillText('Press ENTER to Resume', this.width / 2, this.height / 2)
@@ -69,11 +69,12 @@ export default class View {
         this.clearScreen()
 
         this.context.fillStyle = '#fff'
-        this.context.font = '20px"Press Start to play"'
+        this.context.font = '20px"Press Start 2P"'
         this.context.textAlign = 'center'
         this.context.textBaseline = 'middle'
         this.context.fillText('GAME OVER', this.width / 2, this.height / 2 - 48)
         this.context.fillText(`Score: ${score}`, this.width / 2, this.height / 2)
+        this.context.fillText('Press ENTER to Restart', this.width / 2, this.height / 2 + 48)
     }
 
     clearScreen() {
@@ -83,11 +84,9 @@ export default class View {
     renderPlayField({
         playField
     }) {
-        for (let y = 0; y < playField.length; y += 1) {
-            const line = playField[y];
-
-            for (let x = 0; x < line.length; x += 1) {
-                const block = line[x];
+        for (let y = 0; y < playField.length; y++) {
+            for (let x = 0; x < playField[y].length; x++) {
+                const block = playField[y][x];
 
                 if (block) {
                     this.renderBlock(
@@ -114,7 +113,7 @@ export default class View {
         this.context.textAlign = 'start'
         this.context.textBaseline = 'top'
         this.context.fillStyle = '#fff'
-        this.context.font = '16px "Press Start 2p"'
+        this.context.font = '18px "Press Start to Play"'
 
         this.context.fillText(`Score ${score}`, this.panelX, this.panelY + 0)
         this.context.fillText(`Lines ${lines}`, this.panelX, this.panelY + 26)
